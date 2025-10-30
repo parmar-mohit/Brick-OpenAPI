@@ -1,0 +1,22 @@
+openapi: 3.0.4
+info:
+  title: Random Api Title
+  description: API Definition Test
+  termsOfService : https://thebommber.com/privacy-policy
+servers:
+  - url: https://thebommber.com:{port}/development/{version}
+    description: Development Server
+  - url: https://thebommber.com:{port}/production/{version}
+    description: Production Server
+    variables:
+      version:
+        default: v1
+        description: Value of Version
+      port:
+        enum:
+          - "8080"
+          - "443"
+        default: "8080"
+        description: Port of Server
+
+paths: {}

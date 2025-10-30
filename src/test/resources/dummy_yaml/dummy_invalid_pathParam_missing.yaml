@@ -1,0 +1,39 @@
+openapi: 3.0.4
+info:
+  title: Random Api Title
+  description: API Definition Test
+  termsOfService : https://randomurl.com/terms-of-service
+  version: 0.0.1
+  contact: {}
+servers:
+  - url: https://randomurl.com/development/
+    description: Development Server
+  - url: https://randomurl.com:{port}/production/{version}
+    description: Production Server
+    variables:
+      version:
+        default: v1
+        description: Value of Version
+      port:
+        enum:
+          - "8080"
+          - "443"
+        default: "8080"
+        description: Port of Server
+paths:
+  /categories/{categoryId}:
+    get:
+      summary: List of All Categories
+      description: Returns a list of all categories
+      responses:
+        '200':
+          description: A List of Categories
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  categoryId:
+                    type: integer
+                  name:
+                    type: string

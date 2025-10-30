@@ -1,0 +1,4 @@
+logger:
+  clear: true
+  all:
+    file: log-output/openapi-logs.log
