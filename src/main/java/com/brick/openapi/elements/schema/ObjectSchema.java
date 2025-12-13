@@ -1,9 +1,12 @@
 package com.brick.openapi.elements.schema;
 
 import com.brick.logger.Logger;
-import com.brick.utilities.exception.KeyNotFound;import com.brick.openapi.elements.Components;
+import com.brick.utilities.exception.KeyNotFound;
+
+import tools.jackson.databind.JsonNode;
+
+import com.brick.openapi.elements.Components;
 import com.brick.openapi.exception.InvalidValue;
-import com.brick.openapi.exception.PropertyNotFound;
 import com.brick.openapi.reader.OpenAPIKeyConstants;
 import com.brick.utilities.BrickMap;
 
@@ -14,10 +17,8 @@ public class ObjectSchema extends Schema {
     private final List<String> requiredProperties;
     private final boolean nullable;
 
-    public ObjectSchema(BrickMap brickMap, Components components) throws KeyNotFound, InvalidValue, PropertyNotFound {
-        super(brickMap,components);
-
-        Logger.trace("Trying to Create Object Schema Object");
+    public ObjectSchema(BrickMap brickMap, Components components) throws KeyNotFound, InvalidValue {
+        
         this.properties = new HashMap<>();
         BrickMap propertiesMap = brickMap.getBrickMap(OpenAPIKeyConstants.PROPERTIES);
         for( Map.Entry<String,Object> entry : propertiesMap ){
@@ -32,6 +33,25 @@ public class ObjectSchema extends Schema {
         }else{
             this.nullable = false;
         }
-        Logger.trace("ObjectSchema Object Created");
+        
     }
+
+	@Override
+	public boolean validateData(JsonNode data) {
+		for( Map.Entry<String, Schema> entry: this.properties.entrySet() ) {
+			//Checking if that property exist in data
+			if( !data.has(entry.getKey())  ) {
+				return false;
+			}
+			
+			// Validating for That Schema
+			if( !entry.getValue().validateData(data.get(entry.getKey())) ) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
+    
+    
 }

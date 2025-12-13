@@ -20,7 +20,7 @@ public class Info {
     private final Optional<License> license;
 
     public Info(BrickMap brickMap) throws KeyNotFound {
-        Logger.trace("Creating Info Object");
+        
         this.title = brickMap.getString(OpenAPIKeyConstants.INFO_TITLE);
         this.apiVersion = brickMap.getString(OpenAPIKeyConstants.INFO_API_VERSION);
 
@@ -29,7 +29,7 @@ public class Info {
         this.termsOfService = brickMap.getOptionalString(OpenAPIKeyConstants.INFO_TERMS_OF_SERVICE);
         this.contact = Contact.getContact( brickMap.getOptionalBrickMap(OpenAPIKeyConstants.INFO_CONTACT) );
         this.license = License.getLicense( brickMap.getOptionalBrickMap(OpenAPIKeyConstants.INFO_LICENSE) );
-        Logger.trace("Info Object Created");
+        
     }
 
     public String getTitle() {

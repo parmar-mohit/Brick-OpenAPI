@@ -1,9 +1,12 @@
 package com.brick.openapi.elements.path;
 
 import com.brick.logger.Logger;
-import com.brick.utilities.exception.KeyNotFound;import com.brick.openapi.elements.Components;
+import com.brick.utilities.exception.KeyNotFound;
+
+import tools.jackson.databind.JsonNode;
+
+import com.brick.openapi.elements.Components;
 import com.brick.openapi.exception.InvalidValue;
-import com.brick.openapi.exception.PropertyNotFound;
 import com.brick.openapi.reader.OpenAPIKeyConstants;
 import com.brick.utilities.BrickMap;
 
@@ -14,8 +17,8 @@ public class RequestBody {
     private final Content content;
     private final boolean required;
 
-    public RequestBody(BrickMap brickMap, Components components) throws KeyNotFound, InvalidValue, PropertyNotFound {
-        Logger.trace("Trying to Create RequestBody Object");
+    public RequestBody(BrickMap brickMap, Components components) throws KeyNotFound, InvalidValue {
+        
 
         this.description = brickMap.getOptionalString(OpenAPIKeyConstants.DESCRIPTION);
         this.content = new Content(brickMap.getBrickMap(OpenAPIKeyConstants.CONTENT), components);
@@ -27,6 +30,17 @@ public class RequestBody {
             this.required = false;
         }
 
-        Logger.trace("RequestBody Object Created");
+        
+    }
+    
+    /*
+     * Description: Validates Request Body
+     */
+    public boolean validateRequest(JsonNode requestBody) {
+    	if( !this.required && requestBody.isEmpty() ) {
+    		return true;
+    	}
+    	
+    	return this.content.validateData(requestBody);
     }
 }

@@ -14,7 +14,7 @@ public enum BearerFormat {
     }
 
     public static BearerFormat fromString(String value) throws InvalidValue {
-        Logger.trace("Trying to Create BearerFormat Enum");
+        
         for (BearerFormat pt : values()) {
             if (pt.bearerFormat.equalsIgnoreCase(value)) {
                 return pt;

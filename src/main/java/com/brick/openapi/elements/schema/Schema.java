@@ -1,9 +1,12 @@
 package com.brick.openapi.elements.schema;
 
-import com.brick.utilities.exception.KeyNotFound;import com.brick.logger.Logger;
+import com.brick.utilities.exception.KeyNotFound;
+
+import tools.jackson.databind.JsonNode;
+
+import com.brick.logger.Logger;
 import com.brick.openapi.elements.Components;
 import com.brick.openapi.exception.InvalidValue;
-import com.brick.openapi.exception.PropertyNotFound;
 import com.brick.openapi.reader.OpenAPIKeyConstants;
 import com.brick.utilities.BrickMap;
 
@@ -13,43 +16,6 @@ import java.util.Map;
 import java.util.Optional;
 
 public abstract class Schema {
-
-    private final List<Schema> allOfSchemas;
-    private final List<Schema> anyOfSchemas;
-    private final List<Schema> oneOfSchemas;
-
-    public Schema(BrickMap brickMap, Components components) throws InvalidValue, KeyNotFound, PropertyNotFound {
-        Logger.trace("Trying to Create Schema Object");
-
-        this.allOfSchemas = new ArrayList<>();
-        Optional<List<Map<String,Object>>> allOfList  = brickMap.getOptionalListOfMap(OpenAPIKeyConstants.ALL_OF);
-        if( allOfList.isPresent() ) {
-            Logger.trace("allOf Schema Found");
-            for (Map<String,Object> m : allOfList.get()) {
-                this.allOfSchemas.add(SchemaFactory.getSchema(new BrickMap(m),components));
-            }
-        }
-
-        this.anyOfSchemas = new ArrayList<>();
-        Optional<List<Map<String,Object>>> anyOfList  = brickMap.getOptionalListOfMap(OpenAPIKeyConstants.ANY_OF);
-        if( anyOfList.isPresent() ) {
-            Logger.trace("anyOf Schema Found");
-            for (Map<String,Object> m : anyOfList.get()) {
-                this.anyOfSchemas.add(SchemaFactory.getSchema(new BrickMap(m),components));
-            }
-        }
-
-        this.oneOfSchemas = new ArrayList<>();
-        Optional<List<Map<String,Object>>> oneOflist  = brickMap.getOptionalListOfMap(OpenAPIKeyConstants.ONE_OF);
-        if( oneOflist.isPresent() ) {
-            Logger.trace("oneOf Schema Found");
-            for (Map<String,Object> m : oneOflist.get()) {
-                this.oneOfSchemas.add(SchemaFactory.getSchema(new BrickMap(m),components));
-            }
-        }
-
-        Logger.trace("Schema Object Created");
-    }
 
     /*
         Description: Returns a List of All the references that current schema uses
@@ -126,4 +92,9 @@ public abstract class Schema {
 
         return references;
     }
+    
+    /*
+     * Description Validates Data
+     */
+    public abstract boolean validateData(JsonNode data);
 }

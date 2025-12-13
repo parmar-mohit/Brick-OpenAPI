@@ -37,3 +37,5 @@ build/
 # My GitIgnore
 log-output/*
 
+### Draw.io Backup Files ###
+*.bkp

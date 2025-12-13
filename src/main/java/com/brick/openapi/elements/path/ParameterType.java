@@ -16,7 +16,7 @@ public enum ParameterType {
     }
 
     public static ParameterType fromString(String value) throws InvalidValue {
-        Logger.trace("Creating ParameterType Enum");
+        
         for (ParameterType pt : values()) {
             if (pt.type.equalsIgnoreCase(value)) {
                 return pt;

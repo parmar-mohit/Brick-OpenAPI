@@ -1,16 +1,24 @@
 package com.brick.openapi.elements.path.http.methods;
 
 import com.brick.logger.Logger;
-import com.brick.utilities.exception.KeyNotFound;import com.brick.openapi.elements.Components;
+import com.brick.utilities.exception.KeyNotFound;
+
+import jakarta.servlet.http.HttpServletRequest;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
+
+import com.brick.openapi.elements.Components;
 import com.brick.openapi.elements.path.Parameter;
 import com.brick.openapi.elements.path.Response;
 import com.brick.openapi.elements.path.http.HttpStatusCode;
 import com.brick.openapi.elements.security.Security;
 import com.brick.openapi.exception.InvalidValue;
-import com.brick.openapi.exception.PropertyNotFound;
 import com.brick.openapi.reader.OpenAPIKeyConstants;
 import com.brick.utilities.BrickMap;
+import com.brick.utilities.BrickRequestBody;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.*;
 
 public abstract class HttpMethod {
@@ -22,8 +30,8 @@ public abstract class HttpMethod {
     private final Optional<Boolean> deprecated;
     private final Optional<Security> security;
 
-    public HttpMethod(BrickMap brickMap, Components components, Optional<Security> rootSecurity) throws KeyNotFound, InvalidValue, PropertyNotFound {
-        Logger.trace("Trying to Create HttpMethod Object");
+    public HttpMethod(BrickMap brickMap, Components components, Optional<Security> rootSecurity) throws KeyNotFound, InvalidValue {
+        
         this.summary = brickMap.getOptionalString(OpenAPIKeyConstants.SUMMARY);
         this.description = brickMap.getOptionalString(OpenAPIKeyConstants.DESCRIPTION);
 
@@ -48,21 +56,21 @@ public abstract class HttpMethod {
         this.deprecated = brickMap.getOptionalBoolean(OpenAPIKeyConstants.DEPRECATED);
 
         if( brickMap.contains(OpenAPIKeyConstants.SECURITY) ){
-            Logger.trace("MethodLevel Security Details Present");
+            
             this.security = Optional.of( new Security( brickMap.getListOfMap(OpenAPIKeyConstants.SECURITY),components) );
         }else if( rootSecurity.isPresent() ){
-            Logger.trace("Getting Security Detail from Root Security Object");
+            
             this.security = Optional.of(rootSecurity.get());
         }else{
-            Logger.trace("No Security Object Found");
+            
             this.security = Optional.empty();
         }
 
-        Logger.trace("HttpMethodObject Created");
+        
     }
 
     /*
-        Description: Checks is given method has the parameter defined or not
+        Description: Checks if given method has the parameter defined or not
      */
     public boolean hasParameter(String parameterName){
         for( Parameter parameter : this.parameters ){
@@ -72,6 +80,20 @@ public abstract class HttpMethod {
         }
 
         return false;
+    }
+    
+    /*
+     * Description: Validates RequestBody
+     */
+    public boolean validateRequest(BrickRequestBody brickRequestBody) throws IOException {
+    	for( Parameter p : parameters ) {
+    		if( !p.validateParameter(brickRequestBody)) {
+    			return false;
+    		}
+    	}
+    	
+    	Logger.info("Parameters Validated Successfully");
+    	return true;
     }
 
 
@@ -89,5 +111,22 @@ public abstract class HttpMethod {
 
     public Map<HttpStatusCode, Response> getResponses() {
         return responses;
+    }
+    
+    public boolean validateResponse(int statusCode, JsonNode responseBody) {
+    	HttpStatusCode httpStatusCode;
+		try {
+			httpStatusCode = HttpStatusCode.fromString( Integer.toString(statusCode) );
+		} catch (InvalidValue e) { // If Some Exception Occurs mean unexpected status code is passed, hence validation failed to return false
+			Logger.logException(e);
+			return false;
+		}
+		
+    	if( !responses.containsKey(httpStatusCode) ) { //  does not contain response definition
+    		Logger.info("Response Defintion for Status Code : "+statusCode+" Not Found");
+    		return false;
+    	}
+    	
+    	return responses.get(httpStatusCode).validateResponse(responseBody);
     }
 }

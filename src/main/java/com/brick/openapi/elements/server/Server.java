@@ -15,7 +15,7 @@ public class Server {
     private final List<ServerVariable> variables;
 
     public Server(BrickMap brickMap) throws KeyNotFound {
-        Logger.trace("Trying to Create Server object");
+        
         this.url = brickMap.getString(OpenAPIKeyConstants.URL);
         this.description = brickMap.getOptionalString(OpenAPIKeyConstants.DESCRIPTION);
         this.variables = new ArrayList<>();
@@ -27,7 +27,7 @@ public class Server {
                 this.variables.add( new ServerVariable(entry.getKey(), new BrickMap( entry.getValue() ) ) );
             }
         }
-        Logger.trace("Server Object Created");
+        
     }
 
     public String getUrl() {

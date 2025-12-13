@@ -17,7 +17,7 @@ public enum SchemaType {
     }
 
     public static SchemaType fromString(String value) throws InvalidValue {
-        Logger.trace("Trying to create SchemaType Enum");
+        
         for (SchemaType pt : values()) {
             if (pt.type.equalsIgnoreCase(value)) {
                 return pt;

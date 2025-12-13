@@ -1,9 +1,12 @@
 package com.brick.openapi.elements.schema;
 
 import com.brick.logger.Logger;
-import com.brick.utilities.exception.KeyNotFound;import com.brick.openapi.elements.Components;
+import com.brick.utilities.exception.KeyNotFound;
+
+import tools.jackson.databind.JsonNode;
+
+import com.brick.openapi.elements.Components;
 import com.brick.openapi.exception.InvalidValue;
-import com.brick.openapi.exception.PropertyNotFound;
 import com.brick.openapi.reader.OpenAPIKeyConstants;
 import com.brick.utilities.BrickMap;
 
@@ -16,10 +19,8 @@ public class IntegerSchema extends Schema {
     private final Optional<List<Integer>> possibleValues;
     private final boolean nullable;
 
-    public IntegerSchema(BrickMap brickMap, Components components) throws KeyNotFound, InvalidValue, PropertyNotFound {
-        super(brickMap,components);
-
-        Logger.trace("Trying to Create IntegerSchema Object");
+    public IntegerSchema(BrickMap brickMap, Components components) throws KeyNotFound, InvalidValue {
+        
         this.minimum = brickMap.getOptionalInteger(OpenAPIKeyConstants.MINIMUM);
         this.maximum = brickMap.getOptionalInteger(OpenAPIKeyConstants.MAXIMUM);
         this.possibleValues = brickMap.getOptionalListOfInteger(OpenAPIKeyConstants.ENUM);
@@ -28,6 +29,49 @@ public class IntegerSchema extends Schema {
         }else{
             this.nullable = false;
         }
-        Logger.trace("IntegerSchema Object Created");
+        
     }
+
+	@Override
+	public boolean validateData(JsonNode data) {
+		
+		//Checking Nullable Condition
+		if( data == null && !this.nullable ) {
+			return false;
+		}
+		
+		int value;
+		
+		// Cookie or Path Data may be received as string so we must check for String data as well
+		if( data.isString() ) {
+			try {
+				value = Integer.parseInt(data.asString());
+			}catch( NumberFormatException e) {
+				Logger.logException(e);
+				return false;
+			}
+		}else {
+			//Checking if Data is Integer
+			if( !data.isInt() ) { 
+				return false;
+			}
+			
+			//Checking Range of Values
+			value = data.asInt();
+		}
+		
+		if( this.minimum.isPresent() && value < this.minimum.get() ) {
+			return false;
+		}
+		if( this.maximum.isPresent() && value > this.maximum.get() ) {
+			return false;
+		}
+		if( this.possibleValues.isPresent() && !this.possibleValues.get().contains(value) ) {
+			return false;
+		}
+		
+		return true;
+	}
+    
+    
 }

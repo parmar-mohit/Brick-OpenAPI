@@ -40,10 +40,6 @@ public class OpenAPIFileYamlReader extends OpenAPIFileReader {
             InvalidOpenAPISpecification invalidOpenAPISpecification = new InvalidOpenAPISpecification(fileName, InvalidOpenAPISpecification.Reason.KEY_NOT_FOUND, e.getKeyNotFound());
             Logger.logException(invalidOpenAPISpecification);
             throw invalidOpenAPISpecification;
-        }catch (PropertyNotFound e){
-            InvalidOpenAPISpecification invalidOpenAPISpecification = new InvalidOpenAPISpecification(fileName, InvalidOpenAPISpecification.Reason.PROPERTY_NOT_FOUND ,e.getPropertyNotFound());
-            Logger.logException(invalidOpenAPISpecification);
-            throw invalidOpenAPISpecification;
         }catch (InvalidValue e){
             InvalidOpenAPISpecification invalidOpenAPISpecification = new InvalidOpenAPISpecification(fileName, InvalidOpenAPISpecification.Reason.INVALID_VALUE ,e.getInvalidValue());
             Logger.logException(invalidOpenAPISpecification);

@@ -45,6 +45,7 @@ The following OpenAPI features are currently **excluded** but may be added in fu
 | **Security Schemes** | API Key authentication |
 | **Security Schemes** | OAuth 2.0 |
 | **Security Schemes** | OpenID Connect |
+| **Not Keyword**   |  not |
 
 > These features are intentionally omitted to keep the parser lightweight and focused on essential structure parsing.
 

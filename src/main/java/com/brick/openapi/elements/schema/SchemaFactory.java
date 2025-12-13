@@ -1,9 +1,10 @@
 package com.brick.openapi.elements.schema;
 
+
 import com.brick.logger.Logger;
-import com.brick.utilities.exception.KeyNotFound;import com.brick.openapi.elements.Components;
+import com.brick.utilities.exception.KeyNotFound;
+import com.brick.openapi.elements.Components;
 import com.brick.openapi.exception.InvalidValue;
-import com.brick.openapi.exception.PropertyNotFound;
 import com.brick.openapi.reader.OpenAPIKeyConstants;
 import com.brick.utilities.BrickMap;
 
@@ -11,10 +12,10 @@ import com.brick.utilities.BrickMap;
     Description: Factory Pattern to Initialise Different Schema Types
  */
 public class SchemaFactory {
-    public static Schema getSchema(BrickMap brickMap, Components components) throws KeyNotFound, InvalidValue, PropertyNotFound {
+    public static Schema getSchema(BrickMap brickMap, Components components) throws KeyNotFound, InvalidValue {
         // Check if it is Reference if it is, Return Reference else create Object
         if( brickMap.contains(OpenAPIKeyConstants.REFERENCE) ){
-            Logger.trace("Getting Schema from References");
+            
             String referenceValue = brickMap.getString(OpenAPIKeyConstants.REFERENCE);
             if( !referenceValue.startsWith(OpenAPIKeyConstants.REFERENCE_SCHEMA) ){
                 InvalidValue invalidValue = new InvalidValue(referenceValue);
@@ -25,7 +26,7 @@ public class SchemaFactory {
 
             return components.getSchema(schemaName);
         }else {
-            Logger.trace("Creating New Schema Based on Type");
+            
             SchemaType type = SchemaType.fromString(brickMap.getString(OpenAPIKeyConstants.SCHEMA_TYPE));
             switch (type) {
                 case ARRAY:
@@ -42,10 +43,23 @@ public class SchemaFactory {
 
                 case STRING:
                     return new StringSchema(brickMap,components);
-
-                default:
-                    return new EmptySchema(brickMap,components);
             }
+            
+            if( brickMap.contains(OpenAPIKeyConstants.ALL_OF) ) {
+            	return new AllOfSchema(brickMap, components);
+            }
+            
+            if( brickMap.contains(OpenAPIKeyConstants.ONE_OF) ) {
+            	return new OneOfSchema(brickMap, components);
+            }
+            
+            if( brickMap.contains(OpenAPIKeyConstants.ANY_OF) ) {
+            	return new AnyOfSchema(brickMap, components);
+            }
+            
+            InvalidValue invalidValue = new InvalidValue("Could not identify Schema Type");
+            Logger.logException(invalidValue);
+            throw invalidValue;
         }
     }
 }

@@ -1,14 +1,14 @@
 package com.brick.openapi;
 
 import com.brick.logger.Logger;
-import com.brick.utilities.exception.KeyNotFound;import com.brick.openapi.elements.Components;
+import com.brick.utilities.exception.KeyNotFound;
+import com.brick.openapi.elements.Components;
 import com.brick.openapi.elements.info.Info;
 import com.brick.openapi.elements.path.Path;
 import com.brick.openapi.elements.security.Security;
 import com.brick.openapi.elements.server.Server;
 import com.brick.openapi.exception.CyclicReferenceFound;
 import com.brick.openapi.exception.InvalidValue;
-import com.brick.openapi.exception.PropertyNotFound;
 import com.brick.openapi.reader.OpenAPIKeyConstants;
 import com.brick.utilities.BrickMap;
 
@@ -26,8 +26,8 @@ public class OpenAPI {
     private final Optional<Components> components;
     private final Optional<Security> security;
 
-    public OpenAPI( BrickMap brickMap ) throws KeyNotFound, PropertyNotFound, InvalidValue, CyclicReferenceFound {
-        Logger.trace("Trying to Create OpenApi Object");
+    public OpenAPI( BrickMap brickMap ) throws KeyNotFound, InvalidValue, CyclicReferenceFound {
+        
 
         this.openApiVersion = brickMap.getString(OpenAPIKeyConstants.OPEN_API_VERSION);
         this.info = new Info( brickMap.getBrickMap(OpenAPIKeyConstants.INFO) );
@@ -63,7 +63,7 @@ public class OpenAPI {
             paths.add( new Path(entry.getKey(), new BrickMap( entry.getValue()), this.components.orElse(null), this.security) );
         }
 
-        Logger.trace("OpenApi Object Created");
+        
     }
 
     public String getOpenApiVersion() {

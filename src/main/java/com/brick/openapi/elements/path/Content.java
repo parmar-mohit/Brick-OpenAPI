@@ -1,11 +1,14 @@
 package com.brick.openapi.elements.path;
 
-import com.brick.utilities.exception.KeyNotFound;import com.brick.logger.Logger;
+import com.brick.utilities.exception.KeyNotFound;
+
+import tools.jackson.databind.JsonNode;
+
+import com.brick.logger.Logger;
 import com.brick.openapi.elements.Components;
 import com.brick.openapi.elements.schema.Schema;
 import com.brick.openapi.elements.schema.SchemaFactory;
 import com.brick.openapi.exception.InvalidValue;
-import com.brick.openapi.exception.PropertyNotFound;
 import com.brick.openapi.reader.OpenAPIKeyConstants;
 import com.brick.utilities.BrickMap;
 
@@ -13,18 +16,20 @@ import java.util.*;
 
 public class Content {
     private final Map<String,Schema> content;
+    
+    private static final String JSON_DATA = "application/json";
 
     /*
         Description: List of Valid Content Type Supported by Current Version of OpenApi Parse
      */
     private final List<String> validContentType = new ArrayList<>(
             Arrays.asList(
-                    "application/json"
+                    JSON_DATA
             )
     );
 
-    public Content(BrickMap brickMap, Components components) throws KeyNotFound, InvalidValue, PropertyNotFound {
-        Logger.trace("Trying to Create Content Object");
+    public Content(BrickMap brickMap, Components components) throws KeyNotFound, InvalidValue {
+        
         this.content = new HashMap<>();
         for(Map.Entry<String,Object> entry : brickMap ){
             if( !validContentType.contains(entry.getKey()) ){
@@ -35,10 +40,23 @@ public class Content {
             this.content.put(entry.getKey(), SchemaFactory.getSchema(new BrickMap( entry.getValue() ) .getBrickMap(OpenAPIKeyConstants.SCHEMA), components ) );
         }
 
-        Logger.trace("Content Object Created");
+        
     }
 
     public Map<String, Schema> getContent() {
         return content;
+    }
+    
+    /*
+     * Description: Validates Request Body
+     */
+    public boolean validateData(JsonNode data) {
+    	for( Map.Entry<String, Schema> entry: content.entrySet() ) {
+    		if( entry.getValue().validateData(data) ) {
+    			return true;
+    		}
+    	}
+    	
+    	return false;
     }
 }

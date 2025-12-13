@@ -1,6 +1,7 @@
 package com.brick.openapi.elements;
 
-import com.brick.utilities.exception.KeyNotFound;import com.brick.logger.Logger;
+import com.brick.utilities.exception.KeyNotFound;
+import com.brick.logger.Logger;
 import com.brick.openapi.elements.path.Parameter;
 import com.brick.openapi.elements.path.Response;
 import com.brick.openapi.elements.schema.Schema;
@@ -9,7 +10,6 @@ import com.brick.openapi.elements.security.scheme.SecurityScheme;
 import com.brick.openapi.elements.security.scheme.SecuritySchemeFactory;
 import com.brick.openapi.exception.CyclicReferenceFound;
 import com.brick.openapi.exception.InvalidValue;
-import com.brick.openapi.exception.PropertyNotFound;
 import com.brick.openapi.reader.OpenAPIKeyConstants;
 import com.brick.utilities.BrickMap;
 
@@ -21,8 +21,8 @@ public class Components {
     private final Map<String, Response> responses;
     private final Map<String, SecurityScheme> securityScheme;
 
-    public Components(BrickMap brickMap) throws KeyNotFound, InvalidValue, CyclicReferenceFound, PropertyNotFound {
-        Logger.trace("Trying to Create Component Object");
+    public Components(BrickMap brickMap) throws KeyNotFound, InvalidValue, CyclicReferenceFound {
+        
         this.schemas = new HashMap<>();
         populateSchemas(brickMap);
 
@@ -34,7 +34,7 @@ public class Components {
 
         this.securityScheme = new HashMap<>();
         populateSecurityScheme(brickMap);
-        Logger.trace("Components Object Created");
+        
     }
 
 
@@ -93,8 +93,8 @@ public class Components {
     /*
         Description : Populating Parameter of Components
      */
-    private void populateParameters(BrickMap brickMap) throws KeyNotFound, PropertyNotFound, InvalidValue {
-        Logger.trace("Populating Parameters in Components");
+    private void populateParameters(BrickMap brickMap) throws KeyNotFound, InvalidValue {
+        
         if( brickMap.contains(OpenAPIKeyConstants.COMPONENT_PARAMETERS) ) {
             BrickMap parameterMap = brickMap.getBrickMap(OpenAPIKeyConstants.COMPONENT_PARAMETERS);
             for (Map.Entry<String, Object> entry : parameterMap) {
@@ -102,14 +102,14 @@ public class Components {
                 this.parameters.put(entry.getKey(), parameter);
             }
         }
-        Logger.trace("Populating Parameter Completed");
+        
     }
 
     /*
         Description : Populating Response of Components
      */
-    private void populateResponses(BrickMap brickMap) throws KeyNotFound, InvalidValue, PropertyNotFound {
-        Logger.trace("Populating Responses in Components");
+    private void populateResponses(BrickMap brickMap) throws KeyNotFound, InvalidValue {
+        
         if( brickMap.contains(OpenAPIKeyConstants.COMPONENT_RESPONSES) ) {
             BrickMap responsesMap = brickMap.getBrickMap(OpenAPIKeyConstants.COMPONENT_RESPONSES);
             for (Map.Entry<String, Object> entry : responsesMap) {
@@ -117,14 +117,14 @@ public class Components {
                 this.responses.put(entry.getKey(), response);
             }
         }
-        Logger.trace("Populating Response Completed");
+        
     }
 
     /*
         Description: Populating Security Scheme of Components
      */
     private void populateSecurityScheme(BrickMap brickMap) throws KeyNotFound, InvalidValue {
-        Logger.trace("Populating Security Scheme in Components");
+        
         if( brickMap.contains(OpenAPIKeyConstants.COMPONENT_SECURITY_SCHEMES) ){
             BrickMap securitySchemeMap = brickMap.getBrickMap(OpenAPIKeyConstants.COMPONENT_SECURITY_SCHEMES);
             for( Map.Entry<String,Object> entry: securitySchemeMap ){
@@ -132,14 +132,14 @@ public class Components {
                 this.securityScheme.put(entry.getKey(), securityScheme);
             }
         }
-        Logger.trace("Populating SecurityScheme Completed");
+        
     }
 
     /*
         Description: Populating Schemas of Components
      */
-    private void populateSchemas(BrickMap brickMap) throws KeyNotFound, InvalidValue, CyclicReferenceFound, PropertyNotFound {
-        Logger.trace("Populating Schema in Components");
+    private void populateSchemas(BrickMap brickMap) throws KeyNotFound, InvalidValue, CyclicReferenceFound {
+        
         if( brickMap.contains(OpenAPIKeyConstants.COMPONENT_SCHEMAS) ) {
             BrickMap schemaMap = brickMap.getBrickMap(OpenAPIKeyConstants.COMPONENT_SCHEMAS);
             // Creating Graph of Where Schema is a Node and Reference is a Vertex
@@ -184,7 +184,7 @@ public class Components {
                 completed.add(current);
             }
         }
-        Logger.trace("Populating Schema Completed");
+        
     }
 
     /*

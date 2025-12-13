@@ -9,8 +9,8 @@ public class BearerAuthScheme implements SecurityScheme {
     private final BearerFormat bearerFormat;
 
     public BearerAuthScheme(BrickMap brickMap) throws KeyNotFound, InvalidValue {
-        Logger.trace("Trying to Create BearerAuthScheme Object");
+        
         this.bearerFormat = BearerFormat.fromString( brickMap.getString(OpenAPIKeyConstants.BEARER_FORMAT) );
-        Logger.trace("BearerAuthScheme Object Created");
+        
     }
 }

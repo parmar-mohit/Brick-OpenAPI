@@ -1,14 +1,18 @@
 package com.brick.openapi.elements.schema;
 
 import com.brick.logger.Logger;
-import com.brick.utilities.exception.KeyNotFound;import com.brick.openapi.elements.Components;
+import com.brick.utilities.exception.KeyNotFound;
+
+import tools.jackson.databind.JsonNode;
+
+import com.brick.openapi.elements.Components;
 import com.brick.openapi.exception.InvalidValue;
-import com.brick.openapi.exception.PropertyNotFound;
 import com.brick.openapi.reader.OpenAPIKeyConstants;
 import com.brick.utilities.BrickMap;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 enum StringSchemaFormat {
     DATE("date"),
@@ -24,7 +28,7 @@ enum StringSchemaFormat {
     }
 
     public static StringSchemaFormat fromString(String value) throws InvalidValue {
-        Logger.trace("Trying to create StringSchemaFormat Enum");
+        
         for (StringSchemaFormat pt : values()) {
             if (pt.type.equalsIgnoreCase(value)) {
                 return pt;
@@ -45,10 +49,8 @@ public class StringSchema extends Schema{
     private final Optional<List<String>> possibleValues;// enum in openapi
     private final boolean nullable;
 
-    public StringSchema(BrickMap brickMap, Components components) throws InvalidValue, KeyNotFound, PropertyNotFound {
-        super(brickMap,components);
-
-        Logger.trace("Trying to Create StringSchemaObject");
+    public StringSchema(BrickMap brickMap, Components components) throws InvalidValue, KeyNotFound {
+        
         Optional<String> stringSchemaType = brickMap.getOptionalString(OpenAPIKeyConstants.FORMAT);
         if( stringSchemaType.isPresent() ){
             this.format = Optional.of(StringSchemaFormat.fromString(stringSchemaType.get()));
@@ -66,7 +68,42 @@ public class StringSchema extends Schema{
             this.nullable = false;
         }
 
-        Logger.trace("StringSchema Object Created");
+        
     }
 
+	@Override
+	public boolean validateData(JsonNode data) {
+		// Nullability Check
+		if( data == null && !this.nullable ) {
+			return false;
+		}
+		
+		if( !data.isString() ) {
+			return false;
+		}
+		
+		String value = data.asString();
+		// Length Checks
+		if( this.minLength.isPresent() && value.length() < this.minLength.get() ) {
+			return false;
+		}
+		if( this.maxLength.isPresent() && value.length() > this.maxLength.get() ) {
+			return false;
+		}
+		
+		
+		// Performing Regex Check
+		if( this.pattern.isPresent() && !Pattern.matches(this.pattern.get(), value) ) {
+			return false;
+			
+		}
+		
+		if( this.possibleValues.isPresent() ) {
+			if( !this.possibleValues.get().contains(value) ) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
 }

@@ -14,7 +14,7 @@ public class Security {
     private final List<SecurityScheme> securityScheme;
 
     public Security(List<Map<String,Object>> listOfMap, Components components) throws KeyNotFound, InvalidValue {
-        Logger.trace("Trying to Create Security Object");
+        
         this.securityScheme = new ArrayList<>();
 
         for( Map<String,Object> map: listOfMap ){
@@ -29,6 +29,6 @@ public class Security {
                 break;
             }
         }
-        Logger.trace("Security Object Created");
+        
     }
 }

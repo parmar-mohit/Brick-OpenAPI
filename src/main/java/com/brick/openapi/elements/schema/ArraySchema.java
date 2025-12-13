@@ -1,13 +1,18 @@
 package com.brick.openapi.elements.schema;
 
 import com.brick.logger.Logger;
-import com.brick.utilities.exception.KeyNotFound;import com.brick.openapi.elements.Components;
+import com.brick.utilities.exception.KeyNotFound;
+
+import tools.jackson.databind.JsonNode;
+
+import com.brick.openapi.elements.Components;
 import com.brick.openapi.exception.InvalidValue;
-import com.brick.openapi.exception.PropertyNotFound;
 import com.brick.openapi.reader.OpenAPIKeyConstants;
 import com.brick.utilities.BrickMap;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 public class ArraySchema extends Schema{
     private final Schema items;
@@ -16,10 +21,8 @@ public class ArraySchema extends Schema{
     private final Optional<Integer> maxItems;
     private final boolean uniqueItems;
 
-    public ArraySchema(BrickMap brickMap, Components components) throws KeyNotFound, InvalidValue, PropertyNotFound {
-        super(brickMap,components);
-
-        Logger.trace("Trying to Create Array Schema Object");
+    public ArraySchema(BrickMap brickMap, Components components) throws KeyNotFound, InvalidValue {
+        
         this.items = SchemaFactory.getSchema( brickMap.getBrickMap(OpenAPIKeyConstants.ARRAY_SCHEMA), components );
         this.minItems = brickMap.getOptionalInteger(OpenAPIKeyConstants.MINIMUM_ITEMS);
         this.maxItems = brickMap.getOptionalInteger(OpenAPIKeyConstants.MAXIMUM_ITEMS);
@@ -36,6 +39,51 @@ public class ArraySchema extends Schema{
             this.uniqueItems = false;
         }
 
-        Logger.trace("ArraySchema Object Created");
+        
     }
+
+	@Override
+	public boolean validateData(JsonNode data) {
+		//Checking for Nullable Conditions
+		if( data == null && !this.nullable ) {
+			return false;
+		}
+				
+		// Checking if Node is An Array
+		if( !data.isArray() ) {
+			return false;
+		}
+		
+		
+		// Checking if Length of Array is as defined
+		int arraySize = data.size();
+		if( this.minItems.isPresent() && arraySize < this.minItems.get() ) {
+			return false;
+		}
+		if( this.maxItems.isPresent() && arraySize > this.maxItems.get() ) {
+			return false;
+		}
+		
+		
+		Set<JsonNode> visitedNodes = new HashSet<>();
+		// Checking Schema Validation for Array Items
+		for( JsonNode node: data ) {
+			if( !this.items.validateData(data) ) {
+				return false;
+			}
+			
+			visitedNodes.add(node);
+		}
+		
+		
+		//Checking Unique Item Condition
+		if( this.uniqueItems && visitedNodes.size() != arraySize ) {
+			return false;
+		}
+		
+		
+		return true;
+	}
+    
+    
 }

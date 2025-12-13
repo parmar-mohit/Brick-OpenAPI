@@ -1,9 +1,12 @@
 package com.brick.openapi.elements.schema;
 
 import com.brick.logger.Logger;
-import com.brick.utilities.exception.KeyNotFound;import com.brick.openapi.elements.Components;
+import com.brick.utilities.exception.KeyNotFound;
+
+import tools.jackson.databind.JsonNode;
+
+import com.brick.openapi.elements.Components;
 import com.brick.openapi.exception.InvalidValue;
-import com.brick.openapi.exception.PropertyNotFound;
 import com.brick.openapi.reader.OpenAPIKeyConstants;
 import com.brick.utilities.BrickMap;
 
@@ -16,10 +19,8 @@ public class NumberSchema extends Schema {
     private final Optional<List<Double>> possibleValues;
     private final boolean nullable;
 
-    public NumberSchema(BrickMap brickMap, Components components) throws KeyNotFound, InvalidValue, PropertyNotFound {
-        super(brickMap,components);
-
-        Logger.trace("Trying to Create Number Schema Object");
+    public NumberSchema(BrickMap brickMap, Components components) throws KeyNotFound, InvalidValue {
+        
         this.minimum = brickMap.getOptionalDouble(OpenAPIKeyConstants.MINIMUM);
         this.maximum = brickMap.getOptionalDouble(OpenAPIKeyConstants.MAXIMUM);
         this.possibleValues = brickMap.getOptionalListOfDouble(OpenAPIKeyConstants.ENUM);
@@ -28,6 +29,35 @@ public class NumberSchema extends Schema {
         }else{
             this.nullable = false;
         }
-        Logger.trace("Number Schema Object Created");
+        
     }
+    
+    @Override
+	public boolean validateData(JsonNode data) {
+		
+		//Checking Nullable Condition
+		if( data == null && !this.nullable ) {
+			return false;
+		}
+		
+		//Checking if Data is Integer
+		if( !data.isDouble() ) {
+			return false;
+		}
+		
+		//Checking Range of Values
+		double value = data.asDouble();
+		if( this.minimum.isPresent() && value < this.minimum.get() ) {
+			return false;
+		}
+		if( this.maximum.isPresent() && value > this.maximum.get() ) {
+			return false;
+		}
+		
+		if( this.possibleValues.isPresent() && ! this.possibleValues.get().contains(value) ) {
+			return false;
+		}
+		
+		return true;
+	}
 }

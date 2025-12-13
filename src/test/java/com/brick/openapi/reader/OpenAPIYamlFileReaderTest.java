@@ -39,7 +39,7 @@ public class OpenAPIYamlFileReaderTest {
 
     @Test
     public void getOpenAPI_invalidDataFile(){
-        String filePath = "dummy_yaml/dummy_invalid_yaml.yaml";
+        String filePath = "/dummy_yaml/dummy_invalid_yaml.yaml";
 
         OpenAPIFileYamlReader openAPIFileYamlReader = new OpenAPIFileYamlReader(filePath);
 
@@ -50,7 +50,7 @@ public class OpenAPIYamlFileReaderTest {
 
     @Test
     public void getOpenAPI_invalidOpenApiFile_infoVersion_missing() {
-        String filePath = "dummy_yaml/dummy_invalid_infoVersion_missing.yaml";
+        String filePath = "/dummy_yaml/dummy_invalid_infoVersion_missing.yaml";
 
         OpenAPIFileYamlReader openAPIFileYamlReader = new OpenAPIFileYamlReader(filePath);
 
@@ -61,7 +61,7 @@ public class OpenAPIYamlFileReaderTest {
 
     @Test
     public void getOpenAPI_invalidOpenApiFile_pathParamRequired_missing(){
-        String filePath = "dummy_yaml/dummy_invalid_pathParamRequired_missing.yaml";
+        String filePath = "/dummy_yaml/dummy_invalid_pathParamRequired_missing.yaml";
 
         OpenAPIFileYamlReader openAPIFileYamlReader = new OpenAPIFileYamlReader(filePath);
 
@@ -72,7 +72,7 @@ public class OpenAPIYamlFileReaderTest {
 
     @Test
     public void getOpenAPI_invalidOpenApiFile_pathParam_missing(){
-        String filePath = "dummy_yaml/dummy_invalid_pathParam_missing.yaml";
+        String filePath = "/dummy_yaml/dummy_invalid_pathParam_missing.yaml";
 
         OpenAPIFileYamlReader openAPIFileYamlReader = new OpenAPIFileYamlReader(filePath);
 
@@ -83,7 +83,7 @@ public class OpenAPIYamlFileReaderTest {
 
     @Test
     public void getOpenAPI_invalidOpenApiFile_endpoint_invalid(){
-        String filePath = "dummy_yaml/dummy_invalid_endpoint_invalid.yaml";
+        String filePath = "/dummy_yaml/dummy_invalid_endpoint_invalid.yaml";
 
         OpenAPIFileYamlReader openAPIFileYamlReader = new OpenAPIFileYamlReader(filePath);
 
@@ -94,7 +94,7 @@ public class OpenAPIYamlFileReaderTest {
 
     @Test
     public void getOpenAPI_invalidOpenApiFile_invalidContentType(){
-        String filePath = "dummy_yaml/dummy_invalid_invalidContentType.yaml";
+        String filePath = "/dummy_yaml/dummy_invalid_invalidContentType.yaml";
 
         OpenAPIFileYamlReader openAPIFileYamlReader = new OpenAPIFileYamlReader(filePath);
 
@@ -105,7 +105,7 @@ public class OpenAPIYamlFileReaderTest {
 
     @Test
     public void getOpenAPI_validFile_withoutComponents() throws InvalidData, FileNotFoundException, InvalidOpenAPISpecification {
-        String filePath = "dummy_yaml/dummy_valid_withoutComponents.yaml";
+        String filePath = "/dummy_yaml/dummy_valid_withoutComponents.yaml";
 
         OpenAPIFileReader openAPIFileReader = new OpenAPIFileYamlReader(filePath);
         OpenAPI openAPI = openAPIFileReader.getOpenAPI();
@@ -161,23 +161,20 @@ public class OpenAPIYamlFileReaderTest {
         List<Path> pathList = openAPI.getPaths();
         assertFalse(pathList.isEmpty() );
         Path path = pathList.get(0);
-        assertEquals("/categories", path.getEndPoint());
+        assertEquals("/categories", path.getUri());
 
-        List<HttpMethod> methodList = path.getHttpMethod();
-        assertFalse(methodList.isEmpty());
-        HttpMethod getMethod = methodList.get(0);
-        assertInstanceOf(GetHttpMethod.class, getMethod);
-        assertEquals("List of All Categories",getMethod.getSummary().get());
-        assertEquals("Returns a list of all categories", getMethod.getDescription().get());
+        assertInstanceOf(GetHttpMethod.class, path.getMethod("get") );
+        assertEquals("List of All Categories",path.getMethod("get").getSummary().get());
+        assertEquals("Returns a list of all categories", path.getMethod("get").getDescription().get());
 
         //Parameters Test
-        List<Parameter> paramterList = getMethod.getParameters();
+        List<Parameter> paramterList = path.getMethod("get").getParameters();
         Parameter parameter = paramterList.get(0);
         assertEquals("categoryId", parameter.getName());
         assertEquals(ParameterType.QUERY ,parameter.getType());
         assertInstanceOf(IntegerSchema.class,parameter.getSchema());
 
-        Map<HttpStatusCode,Response> responseMap = getMethod.getResponses();
+        Map<HttpStatusCode,Response> responseMap = path.getMethod("get").getResponses();
         assertFalse( responseMap.isEmpty() );
         assertTrue( responseMap.containsKey(HttpStatusCode.SUCCESS) );
         Response response = responseMap.get(HttpStatusCode.SUCCESS);
@@ -188,15 +185,15 @@ public class OpenAPIYamlFileReaderTest {
 
         //PATH 3 Test
         path = pathList.get(2);
-        assertEquals("/orders",path.getEndPoint());
-        assertInstanceOf(PostHttpMethod.class, path.getHttpMethod().get(0));
-        assertInstanceOf(PutHttpMethod.class, path.getHttpMethod().get(1));
-        assertInstanceOf(DeleteHttpMethod.class, path.getHttpMethod().get(2));
+        assertEquals("/orders",path.getUri());
+        assertInstanceOf(PostHttpMethod.class, path.getMethod("post"));
+        assertInstanceOf(PutHttpMethod.class, path.getMethod("put"));
+        assertInstanceOf(DeleteHttpMethod.class, path.getMethod("delete"));
     }
 
     @Test
     public void getOpenAPI_validFile_withComponents() throws  FileNotFoundException, InvalidOpenAPISpecification, InvalidData {
-        String filePath = "dummy_yaml/dummy_valid_withComponents.yaml";
+        String filePath = "/dummy_yaml/dummy_valid_withComponents.yaml";
 
         OpenAPIFileReader openAPIFileReader = new OpenAPIFileYamlReader(filePath);
         OpenAPI openAPI = openAPIFileReader.getOpenAPI();
@@ -252,23 +249,20 @@ public class OpenAPIYamlFileReaderTest {
         List<Path> pathList = openAPI.getPaths();
         assertFalse(pathList.isEmpty() );
         Path path = pathList.get(0);
-        assertEquals("/categories", path.getEndPoint());
+        assertEquals("/categories", path.getUri());
 
-        List<HttpMethod> methodList = path.getHttpMethod();
-        assertFalse(methodList.isEmpty());
-        HttpMethod getMethod = methodList.get(0);
-        assertInstanceOf(GetHttpMethod.class, getMethod);
-        assertEquals("List of All Categories",getMethod.getSummary().get());
-        assertEquals("Returns a list of all categories", getMethod.getDescription().get());
+        assertInstanceOf(GetHttpMethod.class, path.getMethod("get") );
+        assertEquals("List of All Categories",path.getMethod("get").getSummary().get());
+        assertEquals("Returns a list of all categories", path.getMethod("get").getDescription().get());
 
         //Parameters Test
-        List<Parameter> paramterList = getMethod.getParameters();
+        List<Parameter> paramterList = path.getMethod("get").getParameters();
         Parameter parameter = paramterList.get(0);
         assertEquals("categoryId", parameter.getName());
         assertEquals(ParameterType.QUERY ,parameter.getType());
         assertInstanceOf(IntegerSchema.class,parameter.getSchema());
 
-        Map<HttpStatusCode,Response> responseMap = getMethod.getResponses();
+        Map<HttpStatusCode,Response> responseMap = path.getMethod("get").getResponses();
         assertFalse( responseMap.isEmpty() );
         assertTrue( responseMap.containsKey(HttpStatusCode.SUCCESS) );
         Response response = responseMap.get(HttpStatusCode.SUCCESS);
@@ -279,15 +273,15 @@ public class OpenAPIYamlFileReaderTest {
 
         //PATH 3 Test
         path = pathList.get(2);
-        assertEquals("/orders",path.getEndPoint());
-        assertInstanceOf(PostHttpMethod.class, path.getHttpMethod().get(0));
-        assertInstanceOf(PutHttpMethod.class, path.getHttpMethod().get(1));
-        assertInstanceOf(DeleteHttpMethod.class, path.getHttpMethod().get(2));
+        assertEquals("/orders",path.getUri());
+        assertInstanceOf(PostHttpMethod.class, path.getMethod("post"));
+        assertInstanceOf(PutHttpMethod.class, path.getMethod("put"));
+        assertInstanceOf(DeleteHttpMethod.class, path.getMethod("delete"));
     }
 
     @Test
     public void getOpenAPI_invalidOpenApiFile_emptySchema(){
-        String filePath = "dummy_yaml/dummy_invalid_emptySchema.yaml";
+        String filePath = "/dummy_yaml/dummy_invalid_emptySchema.yaml";
 
         OpenAPIFileYamlReader openAPIFileYamlReader = new OpenAPIFileYamlReader(filePath);
 

@@ -16,7 +16,7 @@ public enum HttpStatusCode {
     }
 
     public static HttpStatusCode fromString(String value) throws InvalidValue {
-        Logger.trace("Trying to Create HttpStatusCode Enum");
+        
         for (HttpStatusCode pt : values()) {
             if (pt.statusCode.equalsIgnoreCase(value)) {
                 return pt;

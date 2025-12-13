@@ -14,12 +14,12 @@ public class ServerVariable {
     private final Optional<List<String>> possibleValue; // enum in yaml
 
     public ServerVariable(String name, BrickMap brickMap) throws KeyNotFound {
-        Logger.trace("Trying to Create ServerVariable Object");
+        
         this.variableName = name;
         this.defaultValue = brickMap.getString(OpenAPIKeyConstants.VARIABLE_DEFAULT);
         this.description = brickMap.getOptionalString(OpenAPIKeyConstants.DESCRIPTION);
         this.possibleValue = brickMap.getOptionalListOfString(OpenAPIKeyConstants.ENUM);
-        Logger.trace("ServerVariable Object Created");
+        
     }
 
     public String getVariableName() {

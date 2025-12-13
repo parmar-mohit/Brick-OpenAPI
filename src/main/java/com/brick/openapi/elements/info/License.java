@@ -19,14 +19,14 @@ public class License {
     }
 
     public static Optional<License> getLicense(Optional<BrickMap> optionalBrickMap) throws KeyNotFound{
-        Logger.trace("Creating License Object");
+        
         if(optionalBrickMap.isPresent() ){
             License license = new License(optionalBrickMap.get());
-            Logger.trace("License Object Created");
+            
             return Optional.of( license );
         }
 
-        Logger.trace("License Details Not Present Returning Empty Optional");
+        
         return Optional.empty();
     }
 
