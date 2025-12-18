@@ -14,7 +14,7 @@ import com.brick.openapi.elements.schema.SchemaFactory;
 import com.brick.openapi.exception.*;
 import com.brick.openapi.reader.OpenAPIKeyConstants;
 import com.brick.utilities.BrickMap;
-import com.brick.utilities.BrickRequestBody;
+import com.brick.utilities.BrickRequestData;
 
 import java.util.List;
 import java.util.Map;
@@ -77,10 +77,10 @@ public class Parameter {
     /*
      * Description: Check if Parameter is Present and Correct
      */
-    public boolean validateParameter(BrickRequestBody brickRequestBody) {
+    public boolean validateParameter(BrickRequestData brickRequestData) {
     	
     	if( ParameterType.PATH == type ) {
-    		Map<String,String> pathVariables = brickRequestBody.getPathVariables();
+    		Map<String,String> pathVariables = brickRequestData.getPathVariables();
     		
     		if( !pathVariables.containsKey(this.name) ) {
     			if( this.required.isPresent() ) {
@@ -99,7 +99,7 @@ public class Parameter {
     		
     		
     	}else if( ParameterType.HEADER == type ) {
-    		Map<String,String> headers = brickRequestBody.getHeaders();
+    		Map<String,String> headers = brickRequestData.getHeaders();
     		
     		if( !headers.containsKey(this.name) ) {
     			if( this.required.isPresent() ) {
@@ -118,7 +118,7 @@ public class Parameter {
     			return false;
     		}
     	}else if( ParameterType.QUERY == type ) {
-    		Map<String,String[]> parameterMap = brickRequestBody.getQueryParams();
+    		Map<String,String[]> parameterMap = brickRequestData.getQueryParams();
     		
     		if( !parameterMap.containsKey(this.name) ) {
     			if( this.required.isPresent() ) {
@@ -151,7 +151,7 @@ public class Parameter {
     		}
     		
     	}else if( ParameterType.COOKIE == type ) {
-    		List<Cookie> listOfCookies = brickRequestBody.getCookies();
+    		List<Cookie> listOfCookies = brickRequestData.getCookies();
     		
     		if( null == listOfCookies ) {
     			Logger.info("Parameter : "+this.name+" Could not be Validated");

@@ -9,7 +9,7 @@ import com.brick.openapi.elements.security.Security;
 import com.brick.openapi.exception.InvalidValue;
 import com.brick.openapi.reader.OpenAPIKeyConstants;
 import com.brick.utilities.BrickMap;
-import com.brick.utilities.BrickRequestBody;
+import com.brick.utilities.BrickRequestData;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -31,8 +31,8 @@ public class PutHttpMethod extends HttpMethod {
     }
 
 	@Override
-	public boolean validateRequest(BrickRequestBody brickRequestBody) throws IOException {
-		if( !super.validateRequest(brickRequestBody) ) {
+	public boolean validateRequest(BrickRequestData brickRequestData) throws IOException {
+		if( !super.validateRequest(brickRequestData) ) {
 			return false;
 		}
 		
@@ -45,7 +45,7 @@ public class PutHttpMethod extends HttpMethod {
 			return false;
 		}
 		
-		return this.requestBody.get().validateRequest(brickRequestBody.getRequestBody());
+		return this.requestBody.get().validateRequest(brickRequestData.getRequestBody());
 		
 		
 	}

@@ -15,7 +15,7 @@ import com.brick.openapi.elements.security.Security;
 import com.brick.openapi.exception.InvalidValue;
 import com.brick.openapi.reader.OpenAPIKeyConstants;
 import com.brick.utilities.BrickMap;
-import com.brick.utilities.BrickRequestBody;
+import com.brick.utilities.BrickRequestData;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -85,9 +85,9 @@ public abstract class HttpMethod {
     /*
      * Description: Validates RequestBody
      */
-    public boolean validateRequest(BrickRequestBody brickRequestBody) throws IOException {
+    public boolean validateRequest(BrickRequestData brickRequestData) throws IOException {
     	for( Parameter p : parameters ) {
-    		if( !p.validateParameter(brickRequestBody)) {
+    		if( !p.validateParameter(brickRequestData)) {
     			return false;
     		}
     	}

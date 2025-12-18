@@ -167,7 +167,7 @@
         <mxCell id="coPLGXvVidmjPGBHXTyX-49" value="+ hasParameter(paramterName: String): boolean" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="coPLGXvVidmjPGBHXTyX-36" vertex="1">
           <mxGeometry y="334" width="440" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="sZbJOx6JnRNJ6ZwTNLfp-9" value="+ validateRequest(brickRequestBody: BrickRequestBody): boolean" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="coPLGXvVidmjPGBHXTyX-36">
+        <mxCell id="sZbJOx6JnRNJ6ZwTNLfp-9" value="+ validateRequest(brickRequestData: BrickRequestData): boolean" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="coPLGXvVidmjPGBHXTyX-36">
           <mxGeometry y="360" width="440" height="26" as="geometry" />
         </mxCell>
         <mxCell id="sZbJOx6JnRNJ6ZwTNLfp-10" value="+ validateResponse(statusCode: int, responseBody: JsonNode): boolean" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="coPLGXvVidmjPGBHXTyX-36">
@@ -464,7 +464,7 @@
         <mxCell id="coPLGXvVidmjPGBHXTyX-154" value="+ getSchema(): Schema" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="coPLGXvVidmjPGBHXTyX-140" vertex="1">
           <mxGeometry y="294" width="490" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="sZbJOx6JnRNJ6ZwTNLfp-27" value="+ validateParameter(brickRequestBody: BrickRequestBody): boolean" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="coPLGXvVidmjPGBHXTyX-140">
+        <mxCell id="sZbJOx6JnRNJ6ZwTNLfp-27" value="+ validateParameter(brickRequestData: BrickRequestData): boolean" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="coPLGXvVidmjPGBHXTyX-140">
           <mxGeometry y="320" width="490" height="26" as="geometry" />
         </mxCell>
         <mxCell id="coPLGXvVidmjPGBHXTyX-155" value="Use" style="endArrow=open;endSize=12;dashed=1;html=1;rounded=0;exitX=0.398;exitY=0.012;exitDx=0;exitDy=0;entryX=0.891;entryY=-0.003;entryDx=0;entryDy=0;entryPerimeter=0;exitPerimeter=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="coPLGXvVidmjPGBHXTyX-140" target="coPLGXvVidmjPGBHXTyX-81" edge="1">
