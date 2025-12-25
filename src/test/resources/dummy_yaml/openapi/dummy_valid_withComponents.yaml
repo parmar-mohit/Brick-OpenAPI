@@ -97,7 +97,6 @@ paths:
                     $ref: "#/components/schemas/productSchema"
                 address:
                   $ref: "#/components/schemas/addressSchema"
-
       responses:
         '201' :
           description: Order Created Successfully

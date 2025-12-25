@@ -68,7 +68,7 @@ public class ArraySchema extends Schema{
 		Set<JsonNode> visitedNodes = new HashSet<>();
 		// Checking Schema Validation for Array Items
 		for( JsonNode node: data ) {
-			if( !this.items.validateData(data) ) {
+			if( !this.items.validateData(node) ) {
 				return false;
 			}
 			

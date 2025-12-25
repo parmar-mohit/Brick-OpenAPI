@@ -39,7 +39,7 @@ public class OpenAPIYamlFileReaderTest {
 
     @Test
     public void getOpenAPI_invalidDataFile(){
-        String filePath = "/dummy_yaml/dummy_invalid_yaml.yaml";
+        String filePath = "/dummy_yaml/openapi/dummy_invalid_yaml.yaml";
 
         OpenAPIFileYamlReader openAPIFileYamlReader = new OpenAPIFileYamlReader(filePath);
 
@@ -50,7 +50,7 @@ public class OpenAPIYamlFileReaderTest {
 
     @Test
     public void getOpenAPI_invalidOpenApiFile_infoVersion_missing() {
-        String filePath = "/dummy_yaml/dummy_invalid_infoVersion_missing.yaml";
+        String filePath = "/dummy_yaml/openapi/dummy_invalid_infoVersion_missing.yaml";
 
         OpenAPIFileYamlReader openAPIFileYamlReader = new OpenAPIFileYamlReader(filePath);
 
@@ -61,7 +61,7 @@ public class OpenAPIYamlFileReaderTest {
 
     @Test
     public void getOpenAPI_invalidOpenApiFile_pathParamRequired_missing(){
-        String filePath = "/dummy_yaml/dummy_invalid_pathParamRequired_missing.yaml";
+        String filePath = "/dummy_yaml/openapi/dummy_invalid_pathParamRequired_missing.yaml";
 
         OpenAPIFileYamlReader openAPIFileYamlReader = new OpenAPIFileYamlReader(filePath);
 
@@ -72,7 +72,7 @@ public class OpenAPIYamlFileReaderTest {
 
     @Test
     public void getOpenAPI_invalidOpenApiFile_pathParam_missing(){
-        String filePath = "/dummy_yaml/dummy_invalid_pathParam_missing.yaml";
+        String filePath = "/dummy_yaml/openapi/dummy_invalid_pathParam_missing.yaml";
 
         OpenAPIFileYamlReader openAPIFileYamlReader = new OpenAPIFileYamlReader(filePath);
 
@@ -83,7 +83,7 @@ public class OpenAPIYamlFileReaderTest {
 
     @Test
     public void getOpenAPI_invalidOpenApiFile_endpoint_invalid(){
-        String filePath = "/dummy_yaml/dummy_invalid_endpoint_invalid.yaml";
+        String filePath = "/dummy_yaml/openapi/dummy_invalid_endpoint_invalid.yaml";
 
         OpenAPIFileYamlReader openAPIFileYamlReader = new OpenAPIFileYamlReader(filePath);
 
@@ -94,7 +94,7 @@ public class OpenAPIYamlFileReaderTest {
 
     @Test
     public void getOpenAPI_invalidOpenApiFile_invalidContentType(){
-        String filePath = "/dummy_yaml/dummy_invalid_invalidContentType.yaml";
+        String filePath = "/dummy_yaml/openapi/dummy_invalid_invalidContentType.yaml";
 
         OpenAPIFileYamlReader openAPIFileYamlReader = new OpenAPIFileYamlReader(filePath);
 
@@ -105,7 +105,7 @@ public class OpenAPIYamlFileReaderTest {
 
     @Test
     public void getOpenAPI_validFile_withoutComponents() throws InvalidData, FileNotFoundException, InvalidOpenAPISpecification {
-        String filePath = "/dummy_yaml/dummy_valid_withoutComponents.yaml";
+        String filePath = "/dummy_yaml/openapi/dummy_valid_withoutComponents.yaml";
 
         OpenAPIFileReader openAPIFileReader = new OpenAPIFileYamlReader(filePath);
         OpenAPI openAPI = openAPIFileReader.getOpenAPI();
@@ -193,7 +193,7 @@ public class OpenAPIYamlFileReaderTest {
 
     @Test
     public void getOpenAPI_validFile_withComponents() throws  FileNotFoundException, InvalidOpenAPISpecification, InvalidData {
-        String filePath = "/dummy_yaml/dummy_valid_withComponents.yaml";
+        String filePath = "/dummy_yaml/openapi/dummy_valid_withComponents.yaml";
 
         OpenAPIFileReader openAPIFileReader = new OpenAPIFileYamlReader(filePath);
         OpenAPI openAPI = openAPIFileReader.getOpenAPI();
@@ -281,7 +281,7 @@ public class OpenAPIYamlFileReaderTest {
 
     @Test
     public void getOpenAPI_invalidOpenApiFile_emptySchema(){
-        String filePath = "/dummy_yaml/dummy_invalid_emptySchema.yaml";
+        String filePath = "/dummy_yaml/openapi/dummy_invalid_emptySchema.yaml";
 
         OpenAPIFileYamlReader openAPIFileYamlReader = new OpenAPIFileYamlReader(filePath);
 

@@ -82,14 +82,6 @@ public class Parameter {
     	if( ParameterType.PATH == type ) {
     		Map<String,String> pathVariables = brickRequestData.getPathVariables();
     		
-    		if( !pathVariables.containsKey(this.name) ) {
-    			if( this.required.isPresent() ) {
-    				return !this.required.get();
-    			}
-    			
-    			return true;
-    		}
-    		
     		JsonNode pathVariableData = new ObjectMapper().valueToTree(pathVariables.get(this.name));
     		
     		if( !schema.validateData(pathVariableData) ) {
@@ -132,7 +124,7 @@ public class Parameter {
     		}
     		
     		if( parameterMap.get(this.name).length == 1 ) {
-        		JsonNode parameterData = new ObjectMapper().readTree(parameterMap.get(this.name)[0] );
+        		JsonNode parameterData = new ObjectMapper().valueToTree(parameterMap.get(this.name)[0] );
         		if( !schema.validateData(parameterData) ) {
         			Logger.info("Parameter : "+this.name+" Could not be Validated");
         			return false;
@@ -158,19 +150,23 @@ public class Parameter {
     			return false;
     		}
     		
+    		boolean isCookieFound = false;
     		for( Cookie c : listOfCookies ) {
-    			if( this.name.equals(c.getName()) ) {    				
+    			if( this.name.equals(c.getName()) ) {  
+    				isCookieFound = true;
     				JsonNode cookieData = new ObjectMapper().valueToTree(c.getValue() );
     				
     				if( !schema.validateData(cookieData) ) {
     					Logger.info("Parameter : "+this.name+" Could not be Validated");
     					return false;
     				}
+    				
+    				break;
     			}
     		}
     		
     		if( this.required.isPresent() ) {
-    			if( !this.required.get() ) {
+    			if( this.required.get() && !isCookieFound ) {
     				Logger.info("Parameter : "+this.name+" Could not be Validated");
     				return false;
     			}

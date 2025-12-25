@@ -1,0 +1,22 @@
+schemas:
+  A:
+    type: object
+    properties:
+        relatedB:
+          $ref: "#/components/schemas/B"
+  B:
+    type: object
+    properties:
+      relatedC:
+        $ref: "#/components/schemas/C"
+  C:
+    type: object
+    properties:
+      name:
+        type: string
+      age:
+        type: integer
+  D:
+    type: integer
+    minimum: 10
+    maximum: 100

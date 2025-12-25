@@ -1,0 +1,19 @@
+parameters:
+  categoryIdQueryParam1:
+      name: categoryId1
+      in: query
+      required: true
+      schema:
+        type: string
+        minLength: 3
+        maxLength: 5
+      example: abcd
+  categoryIdQueryParam2:
+      name: categoryId2
+      in: query
+      required: true
+      schema:
+        type: string
+        minLength: 3
+        maxLength: 5
+      example: abcd

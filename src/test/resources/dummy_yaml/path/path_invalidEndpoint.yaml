@@ -1,0 +1,28 @@
+/categories/{categoryId:
+  get:
+    tags:
+      - Category
+    summary: List of All Categories
+    description: Returns a list of all categories
+    operationId: getCategoryDetails
+    parameters:
+      - name: categoryId
+        in: path
+        required: true
+        schema:
+          type: string
+          minLength: 3
+          maxLength: 5
+        example: abcd
+    responses:
+      '200':
+        description: A List of Categories
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                categoryId:
+                  type: integer
+                name:
+                  type: string

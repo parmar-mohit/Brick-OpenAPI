@@ -1,0 +1,11 @@
+schemas:
+  A:
+    type: object
+    properties:
+        relatedB:
+          $ref: "#/components/schemas/B"
+  B:
+    type: object
+    properties:
+      relatedA:
+        $ref: "#/components/schemas/B"

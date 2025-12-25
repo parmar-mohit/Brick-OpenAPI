@@ -1,0 +1,10 @@
+description: request body description
+content: 
+  application/json:
+    schema:
+      type: object
+      properties:
+        name:
+          type: string
+        age:
+          type: integer

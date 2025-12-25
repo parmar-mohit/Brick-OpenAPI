@@ -145,7 +145,7 @@ public class Components {
             // Creating Graph of Where Schema is a Node and Reference is a Vertex
             Map<String, List<String>> schemaReferenceGraph = new HashMap<>();
             for (Map.Entry<String, Object> entry : schemaMap) {
-                List<String> reference = Schema.getReferences(schemaMap.getBrickMap(entry.getKey()));
+                List<String> reference = Schema.getReferences(schemaMap.getBrickMap(entry.getKey()));  
                 schemaReferenceGraph.put(entry.getKey(), reference);
             }
 

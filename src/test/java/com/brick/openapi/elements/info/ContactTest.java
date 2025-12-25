@@ -1,10 +1,13 @@
 package com.brick.openapi.elements.info;
 
 import com.brick.utilities.BrickMap;
+import com.brick.utilities.exception.InvalidData;
+import com.brick.utilities.file.FileReader;
+import com.brick.utilities.file.YamlFileReader;
+
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.io.FileNotFoundException;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -12,14 +15,12 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ContactTest {
 
     @Test
-    public void test_detailPresent(){
-        Map<String,Object> map = new HashMap<>();
-        map.put("name","contactName");
-        map.put("email","contactEmail");
-        map.put("url","contactUrl");
+    public void test_detailPresent() throws FileNotFoundException, InvalidData{
+    	String filePath = "/dummy_yaml/info/info_contact_success.yaml";
+    	FileReader fileReader = new YamlFileReader(filePath);
+    	BrickMap contactMap = fileReader.getMap();
 
-        BrickMap brickMap = new BrickMap(map);
-        Optional<BrickMap> optionalBrickMap = Optional.of(brickMap);
+        Optional<BrickMap> optionalBrickMap = Optional.of(contactMap);
 
         Optional<Contact> optionalContact = Contact.getContact(optionalBrickMap);
 

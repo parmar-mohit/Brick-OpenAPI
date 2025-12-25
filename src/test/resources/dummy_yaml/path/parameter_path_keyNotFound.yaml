@@ -1,0 +1,6 @@
+name: categoryId
+in: path
+schema:
+  type: string
+  minLength: 3
+  maxLength: 5

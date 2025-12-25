@@ -1,0 +1,10 @@
+name: categoryId
+in: query
+required: true
+schema:
+  type: array
+  items:
+    type: string
+    minLength: 3
+    maxLength: 5
+description: path variable description

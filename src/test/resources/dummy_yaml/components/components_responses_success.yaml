@@ -1,0 +1,12 @@
+responses:
+  BadRequest:
+    description: Invalid request parameters
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+            message:
+              type: string

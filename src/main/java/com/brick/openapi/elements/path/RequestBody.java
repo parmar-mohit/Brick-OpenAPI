@@ -18,8 +18,6 @@ public class RequestBody {
     private final boolean required;
 
     public RequestBody(BrickMap brickMap, Components components) throws KeyNotFound, InvalidValue {
-        
-
         this.description = brickMap.getOptionalString(OpenAPIKeyConstants.DESCRIPTION);
         this.content = new Content(brickMap.getBrickMap(OpenAPIKeyConstants.CONTENT), components);
 
@@ -37,8 +35,11 @@ public class RequestBody {
      * Description: Validates Request Body
      */
     public boolean validateRequest(JsonNode requestBody) {
-    	if( !this.required && requestBody.isEmpty() ) {
-    		return true;
+    	if( !this.required ) {
+    		if( requestBody.isEmpty() ) {
+    			return true;
+    		}
+    		return false;
     	}
     	
     	return this.content.validateData(requestBody);
