@@ -38,20 +38,22 @@ public class ObjectSchema extends Schema {
 
 	@Override
 	public boolean validateData(JsonNode data) {
+		
+		//Checking Nullable Condition
+		if( data == null || data.isNull()  || ( data.isObject() && data.isEmpty()) ) {
+			return this.nullable;
+		}
+				
 		for( Map.Entry<String, Schema> entry: this.properties.entrySet() ) {
 			//Checking if that property exist in data
-			if( !data.has(entry.getKey())  ) {
+			if( !data.has(entry.getKey()) && this.requiredProperties.contains(entry.getKey()) ) {
 				return false;
-			}
-			
-			// Validating for That Schema
-			if( !entry.getValue().validateData(data.get(entry.getKey())) ) {
+			}else if( data.has(entry.getKey()) && !entry.getValue().validateData(data.get(entry.getKey())) ) { // Validating for That Schema
 				return false;
 			}
 		}
 		
 		return true;
 	}
-    
-    
+
 }

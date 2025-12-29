@@ -38,11 +38,11 @@ public class OneOfSchema extends Schema {
     			matchCount += 1;
     		}
     		
-    		if( matchCount != 1 ) {
+    		if( matchCount > 1 ) {
         		return false;
         	}
     	}
     	
-    	return true;	
+    	return matchCount == 1;	
 	}
 }

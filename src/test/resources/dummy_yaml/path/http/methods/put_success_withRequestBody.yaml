@@ -1,0 +1,36 @@
+put:
+  tags:
+    - Order
+  summary: Create Order
+  description: Post order details to server for processing
+  parameters:
+    - name: categoryId
+      in: header
+      required: true
+      schema:
+        type: string
+        minLength: 3
+        maxLength: 5
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+            age:
+              type: integer
+          required:
+            - name
+            - age
+  responses:
+    '201' :
+      description: Order Created Successfully
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              orderId:
+                type: integer

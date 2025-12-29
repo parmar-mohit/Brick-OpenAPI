@@ -1,0 +1,45 @@
+components:
+  schemas:
+    testBaseSchema1:
+      type: object
+      properties:
+        property1:
+          type: integer
+        property2:
+          type: string    
+      required:
+        - property1
+        - property2  
+    testBaseSchema2:
+      type: object
+      properties:
+        property3:
+          type: integer
+        property4:
+          type: string
+        property5:
+          type: number
+      required:
+        - property3
+        - property4
+    testBaseSchema3:
+      allOf:
+        - $ref: "#/components/schemas/testBaseSchema1"
+        - $ref: "#/components/schemas/testBaseSchema2"
+    testBaseSchema4:
+      anyOf:
+          - $ref: "#/components/schemas/testBaseSchema1"
+          - $ref: "#/components/schemas/testBaseSchema2"
+    testBaseSchema5:
+      oneOf:
+          - $ref: "#/components/schemas/testBaseSchema1"
+          - $ref: "#/components/schemas/testBaseSchema2"
+    testBaseSchema6:
+      type: object
+      properties:
+        name:
+          $ref: "#/components/schemas/testBaseSchema1"
+    testBaseSchema7:
+      type: array
+      items:
+        $ref: "#/components/schemas/testBaseSchema1"

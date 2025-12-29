@@ -1,0 +1,5 @@
+type: array
+nullable: false
+uniqueItems: true
+items:
+  type: string

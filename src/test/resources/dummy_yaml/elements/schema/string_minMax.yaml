@@ -1,0 +1,4 @@
+type: string
+minLength: 5
+maxLength: 10
+nullable: false

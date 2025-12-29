@@ -37,8 +37,8 @@ public class RequestTest {
 		assertTrue( requestBody.validateRequest(contentNode) );
 		
 		ObjectNode contentNodeInvalid = JsonNodeFactory.instance.objectNode();
-		contentNode.put("height", "height");
-		contentNode.put("weight","weight");
+		contentNodeInvalid.put("height", "height");
+		contentNodeInvalid.put("weight","weight");
 		assertFalse( requestBody.validateRequest(contentNodeInvalid) );
 	}
 	

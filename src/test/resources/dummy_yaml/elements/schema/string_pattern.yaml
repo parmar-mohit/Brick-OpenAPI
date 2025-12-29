@@ -1,0 +1,3 @@
+type: string
+pattern: '^SN-\d{4}$' # pattenr should start with 'SN-' and should have 4 digits after that
+example: "SN-1234"

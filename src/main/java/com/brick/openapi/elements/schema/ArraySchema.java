@@ -45,8 +45,8 @@ public class ArraySchema extends Schema{
 	@Override
 	public boolean validateData(JsonNode data) {
 		//Checking for Nullable Conditions
-		if( data == null && !this.nullable ) {
-			return false;
+		if( data == null || data.isNull() ) {
+			return this.nullable;
 		}
 				
 		// Checking if Node is An Array

@@ -1,0 +1,4 @@
+type: number
+minimum: 5.5
+maximum: 10 
+nullable: false

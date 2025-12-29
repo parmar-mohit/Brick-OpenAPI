@@ -36,29 +36,20 @@ public class IntegerSchema extends Schema {
 	public boolean validateData(JsonNode data) {
 		
 		//Checking Nullable Condition
-		if( data == null && !this.nullable ) {
-			return false;
+		if( data == null || data.isNull() ) {
+			return this.nullable;
 		}
 		
 		int value;
 		
-		// Cookie or Path Data may be received as string so we must check for String data as well
-		if( data.isString() ) {
-			try {
-				value = Integer.parseInt(data.asString());
-			}catch( NumberFormatException e) {
-				Logger.logException(e);
-				return false;
-			}
-		}else {
-			//Checking if Data is Integer
-			if( !data.isInt() ) { 
-				return false;
-			}
-			
-			//Checking Range of Values
-			value = data.asInt();
+
+		//Checking if Data is Integer or and Object with Integer
+		if( !data.isInt() ) { 
+			return false;
 		}
+			
+		//Checking Range of Values
+		value = data.asInt();
 		
 		if( this.minimum.isPresent() && value < this.minimum.get() ) {
 			return false;

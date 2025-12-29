@@ -1,0 +1,16 @@
+delete:
+  tags:
+    - Order
+  summary: Delete Order
+  description: Delete order details to server for processing
+  operationId: deleteOrderDetails
+  deprecated: false
+  parameters:
+    - name: orderId
+      in: query
+      required: true
+      schema:
+        type: integer
+  responses:
+    '204':
+      description: Order Details Cancelled Successfully

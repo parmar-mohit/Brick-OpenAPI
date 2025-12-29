@@ -38,11 +38,7 @@ public class PutHttpMethod extends HttpMethod {
 		
 		
 		if( this.requestBody.isEmpty() ) { // If request body definition is not found, then request body should be empty
-			if( requestBody.isEmpty() ) {
-				return true;
-			}
-			
-			return false;
+			return brickRequestData.getRequestBody().isEmpty();
 		}
 		
 		return this.requestBody.get().validateRequest(brickRequestData.getRequestBody());

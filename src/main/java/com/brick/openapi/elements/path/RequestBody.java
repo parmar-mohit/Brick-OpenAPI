@@ -39,7 +39,6 @@ public class RequestBody {
     		if( requestBody.isEmpty() ) {
     			return true;
     		}
-    		return false;
     	}
     	
     	return this.content.validateData(requestBody);

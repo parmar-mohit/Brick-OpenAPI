@@ -1,0 +1,26 @@
+testSchema:
+  oneOf:
+    - $ref: "#/components/schemas/testBaseSchema1"
+    - $ref: "#/components/schemas/testBaseSchema2"
+components:
+  schemas:
+    testBaseSchema1:
+      type: object
+      properties:
+        property1:
+          type: integer
+        property2:
+          type: string    
+      required:
+        - property1
+        - property2  
+    testBaseSchema2:
+      type: object
+      properties:
+        property3:
+          type: integer
+        property4:
+          type: string
+      required:
+        - property3
+        - property4

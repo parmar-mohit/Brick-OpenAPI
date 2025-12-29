@@ -15,11 +15,11 @@ import java.util.Optional;
 import java.util.regex.Pattern;
 
 enum StringSchemaFormat {
-    DATE("date"),
-    DATE_TIME("date-time"),
-    PASSWORD("password"),
-    UUID("uuid"),
-    EMAIL("email");
+    DATE("date"), // Currently No Validation Supported
+    DATE_TIME("date-time"), // Currently No Validation Supported
+    PASSWORD("password"), // Currently No Validation Supported
+    UUID("uuid"), // Currently No Validation Supported
+    EMAIL("email"); // Currently No Validation Supported
 
     private final String type;
 
@@ -74,8 +74,8 @@ public class StringSchema extends Schema{
 	@Override
 	public boolean validateData(JsonNode data) {
 		// Nullability Check
-		if( data == null && !this.nullable ) {
-			return false;
+		if( data == null || data.isNull() ) {
+			return this.nullable;
 		}
 		
 		if( !data.isString() ) {

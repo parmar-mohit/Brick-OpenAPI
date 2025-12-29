@@ -1,0 +1,6 @@
+type: integer
+enum:
+  - 5
+  - 10
+  - 15.15
+nullable: true

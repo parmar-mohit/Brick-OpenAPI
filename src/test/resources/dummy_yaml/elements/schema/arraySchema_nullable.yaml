@@ -1,0 +1,7 @@
+type: array
+nullable: true
+minItems: 2
+maxItems: 3
+uniqueItems: false
+items:
+  type: string

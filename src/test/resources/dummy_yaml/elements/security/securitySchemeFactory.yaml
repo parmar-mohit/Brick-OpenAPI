@@ -1,0 +1,12 @@
+BasicAuth:
+  type: http
+  scheme: basic
+BearerAuth:
+  type: http
+  scheme: bearer
+  bearerFormat: JWT
+InvalidAuth:
+  type: invalid
+InvalidScheme:
+  type: http
+  scheme: invalid

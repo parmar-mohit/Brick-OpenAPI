@@ -60,33 +60,29 @@ public abstract class Schema {
                 }
             }
 
-
-            SchemaType schemaType = SchemaType.fromString( brickMap.getString(OpenAPIKeyConstants.SCHEMA_TYPE) );
-            switch (schemaType) { // Checking for References based on Schema Type
-                case ARRAY:
-                    references.addAll(Schema.getReferences( brickMap.getBrickMap(OpenAPIKeyConstants.ARRAY_SCHEMA) ));
-                    break;
-
-                case NUMBER:
-                    break;
-
-                case INTEGER:
-                    break;
-
-                case OBJECT:
-                    BrickMap propertyMap = brickMap.getBrickMap(OpenAPIKeyConstants.PROPERTIES);
-                    for( Map.Entry<String, Object> entry: propertyMap ){
-                        references.addAll( Schema.getReferences( propertyMap.getBrickMap(entry.getKey()) )  );
-                    }
-                    break;
-
-                case STRING:
-                    break;
-
-                default:
-                    InvalidValue invalidValue = new InvalidValue(schemaType.toString());
-                    Logger.logException(invalidValue);
-                    throw invalidValue;
+            if( brickMap.contains(OpenAPIKeyConstants.SCHEMA_TYPE) ) {
+	            SchemaType schemaType = SchemaType.fromString( brickMap.getString(OpenAPIKeyConstants.SCHEMA_TYPE) );
+	            switch (schemaType) { // Checking for References based on Schema Type
+	                case ARRAY:
+	                    references.addAll(Schema.getReferences( brickMap.getBrickMap(OpenAPIKeyConstants.ARRAY_SCHEMA) ));
+	                    break;
+	
+	                case NUMBER:
+	                    break;
+	
+	                case INTEGER:
+	                    break;
+	
+	                case OBJECT:
+	                    BrickMap propertyMap = brickMap.getBrickMap(OpenAPIKeyConstants.PROPERTIES);
+	                    for( Map.Entry<String, Object> entry: propertyMap ){
+	                        references.addAll( Schema.getReferences( propertyMap.getBrickMap(entry.getKey()) )  );
+	                    }
+	                    break;
+	
+	                case STRING:
+	                    break;
+	            }
             }
         }
 

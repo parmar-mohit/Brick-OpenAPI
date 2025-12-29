@@ -1,0 +1,13 @@
+scheme:
+  - BasicAuth:
+    - 1
+    - 2
+components:
+  securitySchemes:
+      BasicAuth:
+        type: http
+        scheme: basic
+      BearerAuth:
+        type: http
+        scheme: bearer
+        bearerFormat: JWT

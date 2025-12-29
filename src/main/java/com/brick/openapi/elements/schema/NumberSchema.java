@@ -36,8 +36,8 @@ public class NumberSchema extends Schema {
 	public boolean validateData(JsonNode data) {
 		
 		//Checking Nullable Condition
-		if( data == null && !this.nullable ) {
-			return false;
+		if( data == null || data.isNull() ) {
+			return this.nullable;
 		}
 		
 		//Checking if Data is Integer

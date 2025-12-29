@@ -1,0 +1,56 @@
+arraySchema:
+  type: array
+  items:
+    type: integer
+integerSchema:
+  type: integer
+numberSchema:
+  type: number 
+stringSchema:
+  type: string
+objectSchema:
+  type: object
+  properties:
+    name:
+      type: string
+    age:
+      type: integer
+allOfSchema:
+  allOf:
+    - $ref: "#/components/schemas/testBaseSchema1"
+    - $ref: "#/components/schemas/testBaseSchema2"
+oneOfSchema:
+  oneOf:
+    - $ref: "#/components/schemas/testBaseSchema1"
+    - $ref: "#/components/schemas/testBaseSchema2"
+anyOfSchema:
+  anyOf:
+    - $ref: "#/components/schemas/testBaseSchema1"
+    - $ref: "#/components/schemas/testBaseSchema2"
+invalidReference:
+  $ref: "invalid"
+invalidSchema:
+  name: mohit
+  title: software engineer
+components:
+  schemas:
+    testBaseSchema1:
+      type: object
+      properties:
+        property1:
+          type: integer
+        property2:
+          type: string    
+      required:
+        - property1
+        - property2  
+    testBaseSchema2:
+      type: object
+      properties:
+        property3:
+          type: integer
+        property4:
+          type: string
+      required:
+        - property3
+        - property4

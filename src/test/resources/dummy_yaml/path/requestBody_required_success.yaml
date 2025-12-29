@@ -8,4 +8,7 @@ content:
           type: string
         age:
           type: integer
+      required:
+        - name
+        - age
 required: true

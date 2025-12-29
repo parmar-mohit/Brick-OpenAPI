@@ -1,0 +1,15 @@
+put:
+  tags:
+    - Order
+  summary: Create Order
+  description: Post order details to server for processing
+  responses:
+    '201' :
+      description: Order Created Successfully
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              orderId:
+                type: integer

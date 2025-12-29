@@ -20,8 +20,6 @@ public class AnyOfSchema extends Schema {
 	
 	
 	public AnyOfSchema(BrickMap brickMap, Components components) throws KeyNotFound, InvalidValue {
-		
-	
 	    this.anyOfSchemas = new ArrayList<>();
 	    List<Map<String,Object>> anyOfList  = brickMap.getListOfMap(OpenAPIKeyConstants.ANY_OF);
         for (Map<String,Object> m : anyOfList ) {

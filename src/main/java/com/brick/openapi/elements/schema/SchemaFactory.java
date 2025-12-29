@@ -21,31 +21,12 @@ public class SchemaFactory {
                 InvalidValue invalidValue = new InvalidValue(referenceValue);
                 Logger.logException(invalidValue);
                 throw invalidValue;
-            }
+            } 
             String schemaName = referenceValue.substring(OpenAPIKeyConstants.REFERENCE_SCHEMA.length());
 
             return components.getSchema(schemaName);
         }else {
-            
-            SchemaType type = SchemaType.fromString(brickMap.getString(OpenAPIKeyConstants.SCHEMA_TYPE));
-            switch (type) {
-                case ARRAY:
-                    return new ArraySchema(brickMap,components);
-
-                case INTEGER:
-                    return new IntegerSchema(brickMap,components);
-
-                case NUMBER:
-                    return new NumberSchema(brickMap,components);
-
-                case OBJECT:
-                    return new ObjectSchema(brickMap,components);
-
-                case STRING:
-                    return new StringSchema(brickMap,components);
-            }
-            
-            if( brickMap.contains(OpenAPIKeyConstants.ALL_OF) ) {
+        	if( brickMap.contains(OpenAPIKeyConstants.ALL_OF) ) {
             	return new AllOfSchema(brickMap, components);
             }
             
@@ -55,6 +36,26 @@ public class SchemaFactory {
             
             if( brickMap.contains(OpenAPIKeyConstants.ANY_OF) ) {
             	return new AnyOfSchema(brickMap, components);
+            }
+            
+            if( brickMap.contains(OpenAPIKeyConstants.SCHEMA_TYPE) ) {
+	            SchemaType type = SchemaType.fromString(brickMap.getString(OpenAPIKeyConstants.SCHEMA_TYPE));
+	            switch (type) {
+	                case ARRAY:
+	                    return new ArraySchema(brickMap,components);
+	
+	                case INTEGER:
+	                    return new IntegerSchema(brickMap,components);
+	
+	                case NUMBER:
+	                    return new NumberSchema(brickMap,components);
+	
+	                case OBJECT:
+	                    return new ObjectSchema(brickMap,components);
+	
+	                case STRING:
+	                    return new StringSchema(brickMap,components);
+	            }
             }
             
             InvalidValue invalidValue = new InvalidValue("Could not identify Schema Type");

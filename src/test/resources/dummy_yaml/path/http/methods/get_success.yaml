@@ -1,0 +1,28 @@
+get:
+  tags:
+    - Category
+  summary: List of All Categories
+  description: Returns a list of all categories
+  operationId: getCategories
+  parameters:
+    - name: categoryId
+      in: query
+      schema:
+        type: integer
+        minimum: 100
+        maximum: 500
+      example: 101
+  responses:
+    '200':
+      description: A List of Categories
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                categoryId:
+                  type: integer
+                name:
+                  type: string
